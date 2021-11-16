@@ -9,7 +9,7 @@ class MyApp extends StatelessWidget {
       title: 'Learning Duel',
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Learning Duel'), //hallo Test
+          title: const Text('Learning Duel'),
         ),
         body: const Center(
           child: Text('Test'),
