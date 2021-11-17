@@ -1,4 +1,8 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import 'main_menu.dart';
 
 void main() => runApp(MyApp());
 
@@ -7,14 +11,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Learning Duel',
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Learning Duel'),
-        ),
-        body: const Center(
-          child: Text('Test'),
-        ),
-      ),
+      home: MainMenu(),
     );
   }
 }
