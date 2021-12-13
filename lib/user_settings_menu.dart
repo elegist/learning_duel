@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:learning_duel/user_settings_menu.dart';
 import 'globals.dart' as globals;
 
 final ButtonStyle menuButtonStyle = ElevatedButton.styleFrom(
@@ -13,36 +12,18 @@ final ButtonStyle menuButtonStyle = ElevatedButton.styleFrom(
   ),
 );
 
-class MainMenu extends StatefulWidget {
-  const MainMenu({Key? key}) : super(key: key);
+class UserSettingsMenu extends StatefulWidget {
+  const UserSettingsMenu({Key? key}) : super(key: key);
 
   @override
-  _MainMenuState createState() => _MainMenuState();
+  _UserSettingsMenuState createState() => _UserSettingsMenuState();
 }
 
 // Define a corresponding State class.
 // This class holds the data related to the Form.
-class _MainMenuState extends State<MainMenu> {
-  // Create a text controller and use it to retrieve the current value
-  // of the TextField.
-//  final userNameController = TextEditingController(text: globals.username);
-
-  @override
-  void dispose() {
-    // Clean up the controller when the widget is disposed.
-    globals.userNameController.dispose();
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    globals.storage.loadUsername();
-  }
-
+class _UserSettingsMenuState extends State<UserSettingsMenu> {
   @override
   Widget build(BuildContext context) {
-    //globals.storage.loadUsername();
     return Scaffold(
       backgroundColor: Colors.green[900],
       body: Center(
@@ -51,11 +32,8 @@ class _MainMenuState extends State<MainMenu> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Text(globals.username,
-                  style: TextStyle(fontSize: 20),
-                ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     vertical: 30.0,
@@ -63,22 +41,13 @@ class _MainMenuState extends State<MainMenu> {
                   ),
                   child: InkWell(
                     onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => UserSettingsMenu()),
-                      ).whenComplete((){setState(() { });});
-                    },
+                      Navigator.pop(context);
+                    }, // Handle your callback.
                     splashColor: Colors.blue.withOpacity(0.5),
-                    customBorder: CircleBorder(),
-                    child: Ink(
-                      height: 50,
-                      width: 50,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage(globals.profilePicture),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                    child: Icon(
+                      Icons.home,
+                      size: 50.0,
+                      color: Colors.white,
                     ),
                   ),
                 ),
@@ -88,23 +57,29 @@ class _MainMenuState extends State<MainMenu> {
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text("Learning Duel",
+                Text("User Settings",
                   style: TextStyle(fontSize: 30),
                 ),
                 SizedBox(width: 300.0, height: 50.0),
-                ElevatedButton(
-                  style: menuButtonStyle,
-                  onPressed: () { },
-                  child: Text("Start a Duel",
-                    style: TextStyle(fontSize: 20),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                  child:
+                  TextFormField(
+                    controller: globals.userNameController,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      hintText: "Enter your user name:",
+                    ),
                   ),
                 ),
                 SizedBox(height: 10.0),
                 ElevatedButton(
                   style: menuButtonStyle,
-                  onPressed: () { },
-                  child: Text("Manage Cards",
-                      style: TextStyle(fontSize: 20),
+                  onPressed: () {
+                    globals.storage.saveUsername();
+                  },
+                  child: Text("Save user name",
+                    style: TextStyle(fontSize: 20),
                   ),
                 ),
               ],
