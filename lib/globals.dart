@@ -25,6 +25,7 @@ class SettingsStorage {
   // Get path of settings file
   Future<File> get _localFile async {
     final path = await _localPath;
+    print(path + "/" + fileName);
     return File(path + "/" + fileName);
   }
 
@@ -56,4 +57,51 @@ class SettingsStorage {
     userNameController.text = username;
     return username;
   }
+
+  Map <String, dynamic> settingsToJson() {
+    return {
+      'username': username,
+      'profilePicture': profilePicture,
+    };
+  }
+
+  void settingsFromJson() {
+
+  }
+}
+
+void createDefaultSettingsFile() {
+  String defaultUsername = "Anonymous User";
+  String defaultProfilePicture = "assets/images/myProfIsAGamerIcon.png";
+
+  username = defaultUsername;
+
+  String defaultDeck = "";
+  String defaultCard1 = "";
+}
+
+
+class Card {
+  String category = "";
+  String question = "";
+  var answers;
+  int correctAnswerIdx = 0;
+
+  Card(String category, String question, var answers, int correctAnswerIdx){
+    this.category = category;
+    this.question = question;
+    this.answers = answers;
+    this.correctAnswerIdx = correctAnswerIdx;
+  }
+
+  Map <String, dynamic> toJson() {
+    return {
+      'category': category,
+      'question': question,
+     // for (int answerId = 1; answerId <= answers.length; answerId++) {
+     //   'answer': question,
+     // }
+    };
+  }
+
 }
