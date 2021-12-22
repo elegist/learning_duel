@@ -10,30 +10,42 @@ class PlayedCardChoice extends StatefulWidget {
   late List<bool> optionStates;
   late List<Option> optionWidgets;
 
-  PlayedCardChoice(String question, List<String> options, List<bool> optionStates){
+  PlayedCardChoice(
+      String question, List<String> options, List<bool> optionStates) {
     this.question = question;
     this.options = options;
     this.optionStates = optionStates;
-    optionWidgets = List<Option>.filled(4, new Option(isCorrect: false, optionText: '',));
+    optionWidgets = List<Option>.filled(
+        4,
+        new Option(
+          isCorrect: false,
+          optionText: '',
+        ));
 
-    for(var i=0; i<options.length; i++){
-      optionWidgets[i] = Option(optionText: options[i], isCorrect: optionStates[i],);
+    for (var i = 0; i < options.length; i++) {
+      optionWidgets[i] = Option(
+        optionText: options[i],
+        isCorrect: optionStates[i],
+        parentCard: this,
+        optionId: i,
+      );
     }
   }
 
   @override
   State<PlayedCardChoice> createState() => _PlayedCardChoiceState();
 
-  void clickedOption(){
-    for(var i = 0; i < optionWidgets.length; i++){
-      if(optionWidgets[i].isSelected){
-        if(optionWidgets[i].isCorrect){
-          optionWidgets[i].optionColor = Colors.green;
-        }else{
+  void clickedOption(int optionId) {
+    for (var i = 0; i < optionWidgets.length; i++) {
+      if (optionWidgets[i].isCorrect) {
+        optionWidgets[i].optionColor = Colors.green;
+      } else {
+        if (i == optionId) {
           optionWidgets[i].optionColor = Colors.red;
         }
       }
     }
+
   }
 }
 
@@ -73,24 +85,51 @@ class _PlayedCardChoiceState extends State<PlayedCardChoice> {
                 ),
               ),
             ),
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              widget.optionWidgets[0],
-              widget.optionWidgets[1]
-            ]),
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-              widget.optionWidgets[2],
-              widget.optionWidgets[3]
-            ]),
+            Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [widget.optionWidgets[0], widget.optionWidgets[1]]),
+            Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [widget.optionWidgets[2], widget.optionWidgets[3]]),
           ],
         )));
   }
 }
 
-class Option extends StatefulWidget {
-  Option({Key? key, this.optionText, this.isCorrect}) : super(key: key);
+class Option extends StatelessWidget {
+  Option(
+      {Key? key,
+      this.optionText,
+      this.isCorrect,
+      this.parentCard,
+      this.optionId})
+      : super(key: key);
 
   final optionText;
   final isCorrect;
+  final parentCard;
+  final optionId;
+  Color optionColor = Color(0xFFD3D3D3);
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      child: Text(optionText, style: TextStyle(color: Colors.black),),
+      onPressed: () {
+        parentCard.clickedOption(optionId);
+      },
+      style: ElevatedButton.styleFrom(primary: optionColor),
+    );
+  }
+}
+
+/*
+class Option extends StatefulWidget {
+  Option({Key? key, this.optionText, this.isCorrect, this.parentCard}) : super(key: key);
+
+  final optionText;
+  final isCorrect;
+  final parentCard;
   bool isSelected = false;
   Color optionColor = Color(0xFFD3D3D3);
 
@@ -106,6 +145,7 @@ class _OptionState extends State<Option> {
         onTap: () {
           setState(() {
             widget.isSelected = true;
+            widget.parentCard.clickedOption();
           });
         },
         child: ClipRRect(
@@ -123,3 +163,4 @@ class _OptionState extends State<Option> {
         ));
   }
 }
+*/
