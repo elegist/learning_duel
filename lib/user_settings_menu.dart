@@ -76,7 +76,7 @@ class _UserSettingsMenuState extends State<UserSettingsMenu> {
                 ElevatedButton(
                   style: menuButtonStyle,
                   onPressed: () {
-                    globals.storage.saveUsername();
+                    globals.storage.saveUserSettings();
                   },
                   child: Text("Save user name",
                     style: TextStyle(fontSize: 20),

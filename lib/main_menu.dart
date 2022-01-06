@@ -37,7 +37,7 @@ class _MainMenuState extends State<MainMenu> {
   @override
   void initState() {
     super.initState();
-    globals.storage.loadUsername();
+    //globals.storage.loadUserSettings();
   }
 
   @override
@@ -53,7 +53,7 @@ class _MainMenuState extends State<MainMenu> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Text(globals.username,
+                Text(globals.userSettings.userName,
                   style: TextStyle(fontSize: 20),
                 ),
                 Padding(
@@ -75,7 +75,7 @@ class _MainMenuState extends State<MainMenu> {
                       width: 50,
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: AssetImage(globals.profilePicture),
+                          image: AssetImage(globals.userSettings.profilePicture),
                           fit: BoxFit.cover,
                         ),
                       ),
